@@ -1,0 +1,207 @@
+html, body {
+	width: 100%;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none;   /* Chrome/Safari/Opera */
+	-khtml-user-select: none;    /* Konqueror */
+	-moz-user-select: none;      /* Firefox */
+	-ms-user-select: none;       /* Internet Explorer/Edge */
+	user-select: none;           /* Non-prefixed version, currently
+									not supported by any browser */
+}
+
+html, body, select, input {
+	background-color: #111111;
+	color: #FFFFFF;
+}
+
+.drum-machine {
+	padding-top: 1.5em;
+	padding-left: 0.5em;
+	margin: 0 auto;
+}
+
+.slider {
+	width: 4em;
+}
+
+.tone-slider, .decay-slider {
+	background: #999999;
+}
+
+.level-slider > .ui-slider-handle {
+	background: #FF0000;
+}
+
+.level-slider {
+	background: #990000;
+}
+
+.ui-slider .ui-slider-handle {
+	width: 0.5em;
+	margin-left: -0.25em;
+	border: 1px solid #333333;
+}
+
+#track-controls {
+	display: inline-block;
+	padding: 0.5em;
+}
+
+#tempo {
+	width: 4em;
+}
+
+.quarter1 + .ui-button {
+	background: #F5672A;
+}
+
+.quarter2 + .ui-button {
+	background: #FCA13F;
+}
+
+.quarter3 + .ui-button {
+	background: #F5DB49;
+}
+
+.quarter4 + .ui-button {
+	background: #FFFFFF;
+}
+
+.beat + .ui-button.ui-state-hover {
+	border: 1px solid #333333;
+}
+
+.beat + .ui-button > span.ui-button-text {
+	color: #333333;
+}
+
+.beat + .ui-button.ui-state-active {
+	color: #FF0000;
+	border: 1px solid #000000;
+}
+
+.beat + .ui-state-active > span.ui-button-text {
+	color: #FF0000;
+	filter: blur(2px);
+	-webkit-filter: blur(2px);
+}
+
+.beat + .ui-button {
+	color: #333333;
+}
+
+.ui-selectmenu-button, .ui-selectmenu-text, .ui-menu-item {
+	height: 1.25em;
+	font-size: 100%;
+	background-color: #111111;
+	color: #FFFFFF;
+}
+
+.ui-selectmenu-button span.ui-selectmenu-text {
+	padding: 0px 0.1em;
+}
+
+.ui-spinner, .ui-spinner-input, .ui-widget-content, #tempo {
+	background: #111111;
+	color: #FFFFFF;
+}
+
+.ui-button {
+	font-size: 1em;
+}
+
+.ui-slider .ui-slider-handle {
+	cursor: pointer;
+}
+
+.ui-button > span {
+	color: #EF8C08;
+}
+
+.table-footer {
+	text-align: center;
+	cursor: default;
+}
+
+.step-label, th, .instrument-name {
+	cursor: default;
+}
+
+.instrument-name {
+	font-size: 90%;
+}
+
+.step-highlighted {
+	color: #FF0000;
+}
+
+.ui-menu-item.ui-state-focus {
+	font-weight: normal;
+}
+
+.instrument-select {
+	font-size: 90%;
+	width: 10em;
+}
+
+#number-of-measures {
+	display: inline-block;
+}
+
+#number-of-measures .ui-state-active {
+	background: #111111;
+}
+
+#measure-controls {
+	display: block;
+	padding: 0.1em;
+	max-width: 30em;
+}
+
+#measure-selector-button {
+	display: inline-block;
+	width: 4em !important;
+	font-size: 120%;
+}
+
+fieldset {
+	max-width: 10em;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#groove {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#language-button, #version-number {
+	float: right;
+	margin-right: 2em;
+}
+
+.question, .answer {
+	display: block;
+}
+
+.answer {
+	padding-bottom: 2em;
+}
+
+.container {
+	width: 80%;
+	margin: 0 auto;
+}
+@media (max-width: 1000px) {
+	.ui-button-text-only .ui-button-text {
+		padding: .2em .6em;
+	}
+	.slider {
+		width: 2.5em;
+	}
+	.drum-machine {
+		margin: 0em auto;
+		width: 95%;
+		font-size: 90%;
+	}
+}

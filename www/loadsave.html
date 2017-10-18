@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>TR-808</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		<script src="../js/jquery-2.1.3.min.js"></script>
+		<!--
+		<link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+		<link rel='stylesheet' href='css/jquery-ui.min.css' type='text/css' media='all' />
+		<link rel='stylesheet' href='css/jquery-ui.structure.min.css' type='text/css' media='all' />
+		<link rel='stylesheet' href='css/jquery-ui.theme.min.css' type='text/css' media='all' />
+		<link rel='stylesheet' href='css/elements.css' type='text/css' media='all' />
+		<script src="js/jquery-2.1.3.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/howler.min.js"></script>
+		<script src="js/jquery.ui.touch-punch.min.js"></script>
+		<script src="js/init.js"></script>
+		<script src="js/play.js"></script>
+		-->
+	</head>
+	<body>
+		<script>
+			var url = window.location.href;	
+			var hashExtractor = /save\/(.+)/i;
+			var urlArray = hashExtractor.exec(url);
+			var hash = urlArray[1];
+			$.ajax({
+				data: hash,
+				method: "POST",
+				url: "http://tr808.online/lookup",
+				crossDomain: true
+			}).success(function (data) {
+				console.log(data);
+				var dataToStore = "drummachine=" + data.rows[0];
+				document.cookie = dataToStore;
+				window.location.replace("http://tr808.online");
+			});
+		</script>
+
+	</body>
+</html>

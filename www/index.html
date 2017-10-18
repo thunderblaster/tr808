@@ -1,0 +1,382 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>TR-808</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		<meta name="author" content="Thunderblaster" />
+		<meta name="description" content="An online version of the venerable Roland TR-808" />
+		<meta name="keywords" content="drum machine, roland, 808, music" />
+		<link rel='shortcut icon' href='img/favicon.png' type='image/x-icon'/ >
+		<link rel="alternate" hreflang="es" href="http://es.tr808.online" />
+		<link rel="alternate" hreflang="ro" href="http://ro.tr808.online" />
+		<link rel='stylesheet' href='css/jquery-ui.min.css' type='text/css' media='all' />
+		<link rel='stylesheet' href='css/jquery-ui.structure.min.css' type='text/css' media='all' />
+		<link rel='stylesheet' href='css/jquery-ui.theme.min.css' type='text/css' media='all' />
+		<link rel='stylesheet' href='css/elements.css' type='text/css' media='all' />
+		<script src="js/jquery-2.1.3.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/howler.min.js"></script>
+		<script src="js/jquery.ui.touch-punch.min.js"></script>
+		<script src="js/filesaver.min.js"></script>
+		<script src="js/play.js"></script>
+		<script src="js/init.js"></script>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-78704385-1', 'auto');
+			ga('send', 'pageview');
+		</script>
+	</head>
+	<body onload="init()">
+		<select id="language" class="select">
+			<option value="en">English</option>
+			<option value="es">Español</option>
+			<option value="ro">Română</option>
+		</select>
+		<div class="drum-machine">
+			<table>
+				<tr>
+					<th id="measure-header">1</th>
+					<th class="step-label" id="step-label-1">1</th>
+					<th class="step-label" id="step-label-2">2</th>
+					<th class="step-label" id="step-label-3">3</th>
+					<th class="step-label" id="step-label-4">4</th>
+					<th class="step-label" id="step-label-5">5</th>
+					<th class="step-label" id="step-label-6">6</th>
+					<th class="step-label" id="step-label-7">7</th>
+					<th class="step-label" id="step-label-8">8</th>
+					<th class="step-label" id="step-label-9">9</th>
+					<th class="step-label" id="step-label-10">10</th>
+					<th class="step-label" id="step-label-11">11</th>
+					<th class="step-label" id="step-label-12">12</th>
+					<th class="step-label" id="step-label-13">13</th>
+					<th class="step-label" id="step-label-14">14</th>
+					<th class="step-label" id="step-label-15">15</th>
+					<th class="step-label" id="step-label-16">16</th>
+					<th id="level-label">Level</th>
+					<th id="tone-label">Tone</th>
+					<th id="decay-label">Decay</th>
+				</tr>
+				<tr>
+					<td class="instrument-name" id="bd-label">Bass Drum</td>
+					<td><input class="beat quarter1 beat1" id="bd1" type="checkbox"><label for="bd1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="bd2" type="checkbox"><label for="bd2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="bd3" type="checkbox"><label for="bd3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="bd4" type="checkbox"><label for="bd4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="bd5" type="checkbox"><label for="bd5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="bd6" type="checkbox"><label for="bd6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="bd7" type="checkbox"><label for="bd7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="bd8" type="checkbox"><label for="bd8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="bd9" type="checkbox"><label for="bd9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="bd10" type="checkbox"><label for="bd10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="bd11" type="checkbox"><label for="bd11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="bd12" type="checkbox"><label for="bd12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="bd13" type="checkbox"><label for="bd13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="bd14" type="checkbox"><label for="bd14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="bd15" type="checkbox"><label for="bd15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="bd16" type="checkbox"><label for="bd16">•</label></td>
+					<td><div id="bd-level" class="slider level-slider"></div></td>
+					<td><div id="bd-tone" class="slider tone-slider"></div></td>
+					<td><div id="bd-decay" class="slider decay-slider"></div></td>
+				</tr>
+				<tr>
+					<td class="instrument-name" id="sd-label">Snare Drum</td>
+					<td><input class="beat quarter1 beat1" id="sd1" type="checkbox"><label for="sd1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="sd2" type="checkbox"><label for="sd2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="sd3" type="checkbox"><label for="sd3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="sd4" type="checkbox"><label for="sd4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="sd5" type="checkbox"><label for="sd5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="sd6" type="checkbox"><label for="sd6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="sd7" type="checkbox"><label for="sd7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="sd8" type="checkbox"><label for="sd8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="sd9" type="checkbox"><label for="sd9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="sd10" type="checkbox"><label for="sd10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="sd11" type="checkbox"><label for="sd11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="sd12" type="checkbox"><label for="sd12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="sd13" type="checkbox"><label for="sd13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="sd14" type="checkbox"><label for="sd14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="sd15" type="checkbox"><label for="sd15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="sd16" type="checkbox"><label for="sd16">•</label></td>
+					<td><div id="sd-level" class="slider level-slider"></div></td>
+					<td><div id="sd-tone" class="slider tone-slider"></div></td>
+					<td><div id="sd-decay" class="slider decay-slider"></div></td>
+				</tr>
+				<tr>
+					<td>
+						<select id="lt-which" class="select instrument-select">
+							<option value="lt" id="lt-label">Low Tom</option>
+							<option value="lc" id="lc-label">Low Conga</option>
+						</select>
+					</td>
+					<td><input class="beat quarter1 beat1" id="lt1" type="checkbox"><label for="lt1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="lt2" type="checkbox"><label for="lt2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="lt3" type="checkbox"><label for="lt3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="lt4" type="checkbox"><label for="lt4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="lt5" type="checkbox"><label for="lt5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="lt6" type="checkbox"><label for="lt6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="lt7" type="checkbox"><label for="lt7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="lt8" type="checkbox"><label for="lt8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="lt9" type="checkbox"><label for="lt9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="lt10" type="checkbox"><label for="lt10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="lt11" type="checkbox"><label for="lt11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="lt12" type="checkbox"><label for="lt12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="lt13" type="checkbox"><label for="lt13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="lt14" type="checkbox"><label for="lt14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="lt15" type="checkbox"><label for="lt15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="lt16" type="checkbox"><label for="lt16">•</label></td>
+					<td><div id="lt-level" class="slider level-slider"></div></td>
+					<td><div id="lt-tone" class="slider tone-slider"></div></td>
+				</tr>
+				<tr>
+					<td>
+						<select id="mt-which" class="select instrument-select">
+							<option value="mt" id="mt-label">Mid Tom</option>
+							<option value="mc" id="mc-label">Mid Conga</option>
+						</select>
+					</td>
+					<td><input class="beat quarter1 beat1" id="mt1" type="checkbox"><label for="mt1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="mt2" type="checkbox"><label for="mt2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="mt3" type="checkbox"><label for="mt3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="mt4" type="checkbox"><label for="mt4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="mt5" type="checkbox"><label for="mt5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="mt6" type="checkbox"><label for="mt6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="mt7" type="checkbox"><label for="mt7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="mt8" type="checkbox"><label for="mt8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="mt9" type="checkbox"><label for="mt9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="mt10" type="checkbox"><label for="mt10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="mt11" type="checkbox"><label for="mt11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="mt12" type="checkbox"><label for="mt12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="mt13" type="checkbox"><label for="mt13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="mt14" type="checkbox"><label for="mt14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="mt15" type="checkbox"><label for="mt15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="mt16" type="checkbox"><label for="mt16">•</label></td>
+					<td><div id="mt-level" class="slider level-slider"></div></td>
+					<td><div id="mt-tone" class="slider tone-slider"></div></td>
+				</tr>
+				<tr>
+					<td>
+						<select id="ht-which" class="select instrument-select">
+							<option value="ht" id="ht-label">Hi Tom</option>
+							<option value="hc" id="hc-label">Hi Conga</option>
+						</select>
+					</td>
+					<td><input class="beat quarter1 beat1" id="ht1" type="checkbox"><label for="ht1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="ht2" type="checkbox"><label for="ht2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="ht3" type="checkbox"><label for="ht3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="ht4" type="checkbox"><label for="ht4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="ht5" type="checkbox"><label for="ht5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="ht6" type="checkbox"><label for="ht6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="ht7" type="checkbox"><label for="ht7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="ht8" type="checkbox"><label for="ht8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="ht9" type="checkbox"><label for="ht9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="ht10" type="checkbox"><label for="ht10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="ht11" type="checkbox"><label for="ht11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="ht12" type="checkbox"><label for="ht12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="ht13" type="checkbox"><label for="ht13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="ht14" type="checkbox"><label for="ht14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="ht15" type="checkbox"><label for="ht15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="ht16" type="checkbox"><label for="ht16">•</label></td>
+					<td><div id="ht-level" class="slider level-slider"></div></td>
+					<td><div id="ht-tone" class="slider tone-slider"></div></td>
+				</tr>
+				<tr>
+					<td>
+						<select id="rs-which" class="select instrument-select">
+							<option value="rs" id="rs-label">Rimshot</option>
+							<option value="cl" id="cl-label">Claves</option>
+						</select>
+					</td>
+					<td><input class="beat quarter1 beat1" id="rs1" type="checkbox"><label for="rs1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="rs2" type="checkbox"><label for="rs2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="rs3" type="checkbox"><label for="rs3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="rs4" type="checkbox"><label for="rs4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="rs5" type="checkbox"><label for="rs5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="rs6" type="checkbox"><label for="rs6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="rs7" type="checkbox"><label for="rs7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="rs8" type="checkbox"><label for="rs8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="rs9" type="checkbox"><label for="rs9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="rs10" type="checkbox"><label for="rs10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="rs11" type="checkbox"><label for="rs11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="rs12" type="checkbox"><label for="rs12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="rs13" type="checkbox"><label for="rs13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="rs14" type="checkbox"><label for="rs14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="rs15" type="checkbox"><label for="rs15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="rs16" type="checkbox"><label for="rs16">•</label></td>
+					<td><div id="rs-level" class="slider level-slider"></div></td>
+				</tr>
+				<tr>
+					<td>
+						<select id="cp-which" class="select instrument-select">
+							<option value="cp" id="cp-label">Handclap</option>
+							<option value="ma" id="ma-label">Maracas</option>
+						</select>
+					</td>
+					<td><input class="beat quarter1 beat1" id="cp1" type="checkbox"><label for="cp1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="cp2" type="checkbox"><label for="cp2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="cp3" type="checkbox"><label for="cp3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="cp4" type="checkbox"><label for="cp4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="cp5" type="checkbox"><label for="cp5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="cp6" type="checkbox"><label for="cp6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="cp7" type="checkbox"><label for="cp7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="cp8" type="checkbox"><label for="cp8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="cp9" type="checkbox"><label for="cp9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="cp10" type="checkbox"><label for="cp10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="cp11" type="checkbox"><label for="cp11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="cp12" type="checkbox"><label for="cp12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="cp13" type="checkbox"><label for="cp13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="cp14" type="checkbox"><label for="cp14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="cp15" type="checkbox"><label for="cp15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="cp16" type="checkbox"><label for="cp16">•</label></td>
+					<td><div id="cp-level" class="slider level-slider"></div></td>
+				</tr>
+				<tr>
+					<td class="instrument-name" id="cb-label">Cowbell</td>
+					<td><input class="beat quarter1 beat1" id="cb1" type="checkbox"><label for="cb1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="cb2" type="checkbox"><label for="cb2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="cb3" type="checkbox"><label for="cb3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="cb4" type="checkbox"><label for="cb4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="cb5" type="checkbox"><label for="cb5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="cb6" type="checkbox"><label for="cb6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="cb7" type="checkbox"><label for="cb7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="cb8" type="checkbox"><label for="cb8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="cb9" type="checkbox"><label for="cb9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="cb10" type="checkbox"><label for="cb10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="cb11" type="checkbox"><label for="cb11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="cb12" type="checkbox"><label for="cb12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="cb13" type="checkbox"><label for="cb13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="cb14" type="checkbox"><label for="cb14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="cb15" type="checkbox"><label for="cb15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="cb16" type="checkbox"><label for="cb16">•</label></td>
+					<td><div id="cb-level" class="slider level-slider"></div></td>
+				</tr>
+				<tr>
+					<td class="instrument-name" id="cy-label">Cymbal</td>
+					<td><input class="beat quarter1 beat1" id="cy1" type="checkbox"><label for="cy1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="cy2" type="checkbox"><label for="cy2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="cy3" type="checkbox"><label for="cy3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="cy4" type="checkbox"><label for="cy4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="cy5" type="checkbox"><label for="cy5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="cy6" type="checkbox"><label for="cy6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="cy7" type="checkbox"><label for="cy7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="cy8" type="checkbox"><label for="cy8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="cy9" type="checkbox"><label for="cy9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="cy10" type="checkbox"><label for="cy10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="cy11" type="checkbox"><label for="cy11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="cy12" type="checkbox"><label for="cy12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="cy13" type="checkbox"><label for="cy13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="cy14" type="checkbox"><label for="cy14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="cy15" type="checkbox"><label for="cy15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="cy16" type="checkbox"><label for="cy16">•</label></td>
+					<td><div id="cy-level" class="slider level-slider"></div></td>
+					<td><div id="cy-tone" class="slider tone-slider"></div></td>
+					<td><div id="cy-decay" class="slider decay-slider"></div></td>
+				</tr>
+				<tr>
+					<td class="instrument-name" id="oh-label">Open Hihat</td>
+					<td><input class="beat quarter1 beat1" id="oh1" type="checkbox"><label for="oh1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="oh2" type="checkbox"><label for="oh2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="oh3" type="checkbox"><label for="oh3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="oh4" type="checkbox"><label for="oh4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="oh5" type="checkbox"><label for="oh5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="oh6" type="checkbox"><label for="oh6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="oh7" type="checkbox"><label for="oh7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="oh8" type="checkbox"><label for="oh8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="oh9" type="checkbox"><label for="oh9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="oh10" type="checkbox"><label for="oh10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="oh11" type="checkbox"><label for="oh11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="oh12" type="checkbox"><label for="oh12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="oh13" type="checkbox"><label for="oh13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="oh14" type="checkbox"><label for="oh14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="oh15" type="checkbox"><label for="oh15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="oh16" type="checkbox"><label for="oh16">•</label></td>
+					<td><div id="oh-level" class="slider level-slider"></div></td>
+					<td></td>
+					<td><div id="oh-decay" class="slider decay-slider"></div></td>
+				</tr>
+				<tr>
+					<td class="instrument-name" id="ch-label">Closed Hihat</td>
+					<td><input class="beat quarter1 beat1" id="ch1" type="checkbox"><label for="ch1">•</label></td>
+					<td><input class="beat quarter1 beat2" id="ch2" type="checkbox"><label for="ch2">•</label></td>
+					<td><input class="beat quarter1 beat3" id="ch3" type="checkbox"><label for="ch3">•</label></td>
+					<td><input class="beat quarter1 beat4" id="ch4" type="checkbox"><label for="ch4">•</label></td>
+					<td><input class="beat quarter2 beat5" id="ch5" type="checkbox"><label for="ch5">•</label></td>
+					<td><input class="beat quarter2 beat6" id="ch6" type="checkbox"><label for="ch6">•</label></td>
+					<td><input class="beat quarter2 beat7" id="ch7" type="checkbox"><label for="ch7">•</label></td>
+					<td><input class="beat quarter2 beat8" id="ch8" type="checkbox"><label for="ch8">•</label></td>
+					<td><input class="beat quarter3 beat9" id="ch9" type="checkbox"><label for="ch9">•</label></td>
+					<td><input class="beat quarter3 beat10" id="ch10" type="checkbox"><label for="ch10">•</label></td>
+					<td><input class="beat quarter3 beat11" id="ch11" type="checkbox"><label for="ch11">•</label></td>
+					<td><input class="beat quarter3 beat12" id="ch12" type="checkbox"><label for="ch12">•</label></td>
+					<td><input class="beat quarter4 beat13" id="ch13" type="checkbox"><label for="ch13">•</label></td>
+					<td><input class="beat quarter4 beat14" id="ch14" type="checkbox"><label for="ch14">•</label></td>
+					<td><input class="beat quarter4 beat15" id="ch15" type="checkbox"><label for="ch15">•</label></td>
+					<td><input class="beat quarter4 beat16" id="ch16" type="checkbox"><label for="ch16">•</label></td>
+					<td><div id="ch-level" class="slider level-slider"></div></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td class="table-footer" id="step-footer-1">▲</td>
+					<td class="table-footer" id="step-footer-2">▲</td>
+					<td class="table-footer" id="step-footer-3">▲</td>
+					<td class="table-footer" id="step-footer-4">▲</td>
+					<td class="table-footer" id="step-footer-5">▲</td>
+					<td class="table-footer" id="step-footer-6">▲</td>
+					<td class="table-footer" id="step-footer-7">▲</td>
+					<td class="table-footer" id="step-footer-8">▲</td>
+					<td class="table-footer" id="step-footer-9">▲</td>
+					<td class="table-footer" id="step-footer-10">▲</td>
+					<td class="table-footer" id="step-footer-11">▲</td>
+					<td class="table-footer" id="step-footer-12">▲</td>
+					<td class="table-footer" id="step-footer-13">▲</td>
+					<td class="table-footer" id="step-footer-14">▲</td>
+					<td class="table-footer" id="step-footer-15">▲</td>
+					<td class="table-footer" id="step-footer-16">▲</td>
+				</tr>
+			</table>
+			<div class="track-controls ui-widget-header ui-corner-all" id="track-controls">
+				<button id="play" onclick="playButtonClicked()">Play</button>
+				<button id="stop" onclick="shutItDown()">Stop</button>
+				<label for="tempo" id="tempo-label">Tempo </label><input id="tempo">
+				<button id="reset" onclick="resetAll()" class="lang-button">Reset</button>
+				<button id="export-button" onclick="exportDrumMachine()" class="lang-button">Export</button>
+				<button id="save-button" onclick="saveDrumMachine()" class="lang-button">Save</button>
+				<label for="groove" id="groove-label">Groove </label><div id="groove" class="slider"></div>
+			</div>
+			<div class="ui-widget-header ui-corner-all" id="measure-controls">
+				<fieldset>
+					<legend id="number-of-measures-label">Number of measures:</legend>
+					<div id="number-of-measures">
+						<input type="radio" id="number-of-measures-1" name="number-of-measures" value="1" checked="true"><label for="number-of-measures-1">1</label>
+						<input type="radio" id="number-of-measures-2" name="number-of-measures" value="2"><label for="number-of-measures-2">2</label>
+						<input type="radio" id="number-of-measures-4" name="number-of-measures" value="4"><label for="number-of-measures-4">4</label>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend id="current-measure-label">Current Measure:</legend>
+					<select id="measure-selector" class="select">
+						<option id="measure-select-1" value="1">1</option>
+					</select>
+				</fieldset>
+			</div>
+		</div>
+		<input type="button" value="Tweet this beat!" id="twitter-button" class="social-button" onClick="twitterButtonClick()">
+		<input type="button" value="Share on Facebook!" id="fb-button" class="social-button" onClick="fbButtonClick()">
+		<div id="browser-warning" title="Compatibility warning">
+			<p>
+				You are using an incompatible web browser. You may be able to use this site, but performance will likely be degraded.  Please consider upgrading to Safari, Chrome, Firefox, or Edge.
+			</p>
+		</div>
+		<div id="screen-warning" title="Screen size warning">
+			<p>
+				Not to be a size queen, but your window is pretty small, bro.  It might be tough to use this site.  Please resize your browser to a larger size or consider visiting on a device with a larger screen.
+			</p>
+		</div>
+		<div id="version-number">
+			current version: 0.2.3alpha
+		</div>
+	</body>
+</html>

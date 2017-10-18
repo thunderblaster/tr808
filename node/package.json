@@ -1,0 +1,21 @@
+{
+  "name": "tr808-server",
+  "version": "1.0.0",
+  "description": "Back end file conversion and processing for TR808",
+  "main": "tr808-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://fluxx.asuscomm.com:8081/nunchucks/tr808.git"
+  },
+  "author": "thunderblaster",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "fluent-ffmpeg": "^2.0.1",
+    "pg": "^4.5.5",
+    "locale": "0.0.21"
+  }
+}
